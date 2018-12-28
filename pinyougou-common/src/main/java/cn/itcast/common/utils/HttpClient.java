@@ -44,7 +44,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
 /**
- * http请求客户端
+ * http请求客户端修改测试sj
  * 
  * @author Administrator
  * 
