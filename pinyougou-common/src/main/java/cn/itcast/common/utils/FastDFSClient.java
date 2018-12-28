@@ -16,7 +16,7 @@ public class FastDFSClient {
 	private StorageClient1 storageClient = null;
 
 
-	//什么是工程
+	//什么是工程 修改验证
 	//什么是发布
 	//开发代码在哪里 是什么目录结构
 	//发布到服务器上 是什么目录结构
