@@ -2,6 +2,7 @@ package cn.itcast.core.service;
 
 import cn.itcast.core.pojo.specification.Specification;
 import entity.PageResult;
+import entity.Result;
 import pojogroup.SpecificationVo;
 
 import java.util.List;
@@ -17,4 +18,9 @@ public interface SpecificationService {
     void update(SpecificationVo vo);
 
     List<Map> selectOptionList();
+
+
+    void commit(Long[] ids);
+
+
 }

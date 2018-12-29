@@ -27,7 +27,6 @@ app.service('specificationService',function($http){
 	}
     //批量提交规格审核
     this.commit=function(ids){
-		alert(ids);
         return $http.get('../specification/commit.do?ids='+ids);
     }
 	//搜索

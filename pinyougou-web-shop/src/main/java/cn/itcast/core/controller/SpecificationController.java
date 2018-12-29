@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 规格管理
+ * ZQ规格管理
  */
 @RestController
 @RequestMapping("/specification")
@@ -23,19 +23,10 @@ public class SpecificationController {
     @Reference
     private SpecificationService specificationService;
 
-    /**
-     * ZQ12.28
-     * @param page
-     * @param rows
-     * @param specification
-     * @return
-     */
     //查询分页对象 带条件
     @RequestMapping("/search")
     public PageResult search(Integer page, Integer rows, @RequestBody Specification specification){
-        specification.setId((long) 1);
-        PageResult search = specificationService.search(page, rows, specification);
-        return search;
+        return specificationService.search(page,rows,specification);
     }
 
     //规格添加
@@ -49,7 +40,7 @@ public class SpecificationController {
             return new Result(false,"失败");
         }
     }
-    //规格修改
+    //规格添加
     @RequestMapping("/update")
     public Result update(@RequestBody SpecificationVo vo){
         try {
@@ -75,11 +66,12 @@ public class SpecificationController {
     @RequestMapping("/commit")
     public Result commit(Long[] ids){
         try {
+            System.out.println(ids);
             specificationService.commit(ids);
-            return new Result(true,"审核成功");
+            return new Result(true,"提交审核成功");
         } catch (Exception e) {
             e.printStackTrace();
-            return new Result(false,"审核失败");
+            return new Result(false,"提交审核失败");
         }
 
     }
