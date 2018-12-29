@@ -7,13 +7,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("seckillOrder")
+@RequestMapping("/seckillOrder")
 public class SeckillOrderController {
 
     @Reference
     private SeckillOrderService seckillOrderService;
 
-    @RequestMapping("submitOrder")
+    @RequestMapping("/submitOrder")
     public Result submitOrder(Long seckillId){
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
         if ("anonymousUser".equals(userId)){
