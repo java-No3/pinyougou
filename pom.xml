@@ -22,12 +22,10 @@
         <module>pinyougou-web-shop</module>
         <module>pinyougou-web-portal</module>
         <module>pinyougou-web-user</module>
-        <module>pinyougou-seckill-service</module>
-        <module>pinyougou-seckill-interface</module>
         <module>pinyougou-service-seckill</module>
-        <module>pinyougou-interface-seckill</module>
         <module>pinyougou-web-seckill</module>
-        <module>pinyougou-interface-seckill</module>
+        <module>pinyougou-service-seckill</module>
+        <module>pinyougou-web-seckill</module>
         <module>pinyougou-service-seckill</module>
         <module>pinyougou-web-seckill</module>
     </modules>
