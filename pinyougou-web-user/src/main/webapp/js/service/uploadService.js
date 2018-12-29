@@ -1,3 +1,4 @@
+//信息注册之图片上传 wph
 app.service("uploadService",function($http){
 
 	//异步上传文件(图片)
