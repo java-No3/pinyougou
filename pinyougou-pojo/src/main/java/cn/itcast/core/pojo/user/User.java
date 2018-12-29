@@ -101,12 +101,24 @@ public class User implements Serializable {
     /**
      * 生日
      */
-    private Date birthday;
+    private String birthday;
 
     /**
      * 最后登录时间
      */
     private Date lastLoginTime;
+
+    /**
+     * 所在地
+     */
+    private String locus;
+
+    /**
+     * 职业
+     */
+    private String profession;
+
+
 
     private static final long serialVersionUID = 1L;
 
@@ -270,11 +282,11 @@ public class User implements Serializable {
         this.experienceValue = experienceValue;
     }
 
-    public Date getBirthday() {
+    public String getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(String birthday) {
         this.birthday = birthday;
     }
 
@@ -286,37 +298,50 @@ public class User implements Serializable {
         this.lastLoginTime = lastLoginTime;
     }
 
+    public String getLocus() {
+        return locus;
+    }
+
+    public void setLocus(String locus) {
+        this.locus = locus;
+    }
+
+    public String getProfession() {
+        return profession;
+    }
+
+    public void setProfession(String profession) {
+        this.profession = profession;
+    }
+
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", username=").append(username);
-        sb.append(", password=").append(password);
-        sb.append(", phone=").append(phone);
-        sb.append(", email=").append(email);
-        sb.append(", created=").append(created);
-        sb.append(", updated=").append(updated);
-        sb.append(", sourceType=").append(sourceType);
-        sb.append(", nickName=").append(nickName);
-        sb.append(", name=").append(name);
-        sb.append(", status=").append(status);
-        sb.append(", headPic=").append(headPic);
-        sb.append(", qq=").append(qq);
-        sb.append(", accountBalance=").append(accountBalance);
-        sb.append(", isMobileCheck=").append(isMobileCheck);
-        sb.append(", isEmailCheck=").append(isEmailCheck);
-        sb.append(", sex=").append(sex);
-        sb.append(", userLevel=").append(userLevel);
-        sb.append(", points=").append(points);
-        sb.append(", experienceValue=").append(experienceValue);
-        sb.append(", birthday=").append(birthday);
-        sb.append(", lastLoginTime=").append(lastLoginTime);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", phone='" + phone + '\'' +
+                ", email='" + email + '\'' +
+                ", created=" + created +
+                ", updated=" + updated +
+                ", sourceType='" + sourceType + '\'' +
+                ", nickName='" + nickName + '\'' +
+                ", name='" + name + '\'' +
+                ", status='" + status + '\'' +
+                ", headPic='" + headPic + '\'' +
+                ", qq='" + qq + '\'' +
+                ", accountBalance=" + accountBalance +
+                ", isMobileCheck='" + isMobileCheck + '\'' +
+                ", isEmailCheck='" + isEmailCheck + '\'' +
+                ", sex='" + sex + '\'' +
+                ", userLevel=" + userLevel +
+                ", points=" + points +
+                ", experienceValue=" + experienceValue +
+                ", birthday=" + birthday +
+                ", lastLoginTime=" + lastLoginTime +
+                ", locus='" + locus + '\'' +
+                ", profession='" + profession + '\'' +
+                '}';
     }
 
     @Override
