@@ -178,7 +178,7 @@ $(function(){
 					<div class="intro"><span>{{pojo.title}}</span></div>
 					<div class='price'><b class='sec-price'>￥{{pojo.costPrice}}</b><b class='ever-price'>￥{{pojo.price}}</b></div>
 					<div class='num'>
-						<div>已售{{  ((pojo.num-pojo.stockCount)/pojo.num*100).toFixed(0) }}%</div>
+						<div>已售{{(pojo.stockCount/(pojo.stockCount+pojo.num)*100).toFixed(0)}}%</div>
 						<div class='progress'>
 							<div class='sui-progress progress-danger'><span style='width: {{((pojo.num-pojo.stockCount)/pojo.num*100).toFixed(0) }}%;' class='bar'></span></div>
 						</div>

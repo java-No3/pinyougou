@@ -4,6 +4,9 @@ import cn.itcast.core.pojo.seckill.SeckillGoods;
 
 import java.util.List;
 
+/**
+ * 查询秒杀商品信息   LH
+ */
 public interface SeckillGoodsService {
 
     List<SeckillGoods> findList();

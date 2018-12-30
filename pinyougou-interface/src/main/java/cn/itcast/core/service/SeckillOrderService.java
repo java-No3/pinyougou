@@ -2,6 +2,11 @@ package cn.itcast.core.service;
 
 import cn.itcast.core.pojo.seckill.SeckillOrder;
 
+
+
+/**
+ *关于秒杀商品订单
+ */
 public interface SeckillOrderService {
 
     void submitOrder(Long seckillId,String userId);

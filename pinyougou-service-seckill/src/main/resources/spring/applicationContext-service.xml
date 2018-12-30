@@ -18,18 +18,11 @@
 
     <dubbo:annotation package="cn.itcast.core.service"/>
 
-    <dubbo:protocol name="dubbo" port="20888"/>
+    <dubbo:protocol name="dubbo" port="20889"/>
 
-    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-        <property name="dataSource" ref="dataSource"/>
-    </bean>
-
-    <tx:annotation-driven transaction-manager="transactionManager"/>
 
     <bean id="idWorker" class="cn.itcast.common.utils.IdWorker">
         <constructor-arg index="0" value="0"/>
         <constructor-arg index="1" value="0"/>
     </bean>
-
-    <jdbc:embedded-database id="dataSource"/>
 </beans>

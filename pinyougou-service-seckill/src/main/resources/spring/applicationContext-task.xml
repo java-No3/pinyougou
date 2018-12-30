@@ -14,7 +14,7 @@
 
     <!--spring管理事务配置-->
     <!--扫描定时任务-->
-    <context:component-scan base-package="cn.itcast.core.service"/>
+    <context:component-scan base-package="cn.itcast.core.service.seckill"/>
     <!--开启定时任务-->
     <task:annotation-driven/>
 

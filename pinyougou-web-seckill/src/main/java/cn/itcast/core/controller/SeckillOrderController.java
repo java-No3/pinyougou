@@ -1,4 +1,4 @@
-package cn.itcast.core.controller.seckill;
+package cn.itcast.core.controller;
 import cn.itcast.core.service.SeckillOrderService;
 import com.alibaba.dubbo.config.annotation.Reference;
 import entity.Result;
@@ -6,14 +6,18 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+
+/**
+ * 秒杀商品订单  LH
+ */
 @RestController
-@RequestMapping("/seckillOrder")
+@RequestMapping("seckillOrder")
 public class SeckillOrderController {
 
     @Reference
     private SeckillOrderService seckillOrderService;
 
-    @RequestMapping("/submitOrder")
+    @RequestMapping("submitOrder")
     public Result submitOrder(Long seckillId){
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
         if ("anonymousUser".equals(userId)){

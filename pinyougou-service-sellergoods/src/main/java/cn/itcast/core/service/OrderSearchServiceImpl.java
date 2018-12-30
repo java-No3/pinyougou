@@ -48,7 +48,6 @@ public class OrderSearchServiceImpl implements OrderSearchService {
         //分页插件
         PageHelper.startPage(pageNum,pageSize);
 
-
         OrderQuery orderQuery = new OrderQuery();
 
         OrderQuery.Criteria criteria = orderQuery.createCriteria();

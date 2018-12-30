@@ -1,18 +1,24 @@
 package cn.itcast.core.service.seckill;
-
 import cn.itcast.common.utils.IdWorker;
 import cn.itcast.core.dao.seckill.SeckillGoodsDao;
 import cn.itcast.core.dao.seckill.SeckillOrderDao;
 import cn.itcast.core.pojo.seckill.SeckillGoods;
 import cn.itcast.core.pojo.seckill.SeckillOrder;
+import cn.itcast.core.pojo.seckill.SeckillOrderQuery;
 import cn.itcast.core.service.SeckillOrderService;
 import com.alibaba.dubbo.config.annotation.Service;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.transaction.annotation.Transactional;
-import javax.annotation.Resource;
 import java.util.Date;
+import java.util.List;
 
+
+/**
+ * 秒杀商品订单相关   LH
+ */
 @Service
 public class SeckillOrderServiceImpl implements SeckillOrderService {
 
@@ -26,14 +32,9 @@ public class SeckillOrderServiceImpl implements SeckillOrderService {
     @Autowired
     private SeckillOrderDao seckillOrderDao;
 
-    @Autowired
-    @Transactional
+
     public void submitOrder(Long seckillId, String userId) {
 
-        //一个用户只能一次完成一次秒杀
-        if (redisTemplate.boundHashOps("seckillOrder").get(userId)!=null){
-            throw new RuntimeException("请完成上一个订单");
-        }
 
         //获取商品信息
         SeckillGoods seckillGoods = (SeckillGoods) redisTemplate.boundHashOps("seckillGoods").get(seckillId);
@@ -41,7 +42,7 @@ public class SeckillOrderServiceImpl implements SeckillOrderService {
             throw new RuntimeException("商品已抢购一空");
         }
 
-        //扣减库存
+        //删减库存
         seckillGoods.setStockCount(seckillGoods.getStockCount()+1);
         seckillGoods.setNum(seckillGoods.getNum()-1);
         redisTemplate.boundHashOps("seckillGoods").put(seckillId,seckillGoods);
@@ -71,13 +72,16 @@ public class SeckillOrderServiceImpl implements SeckillOrderService {
 
     @Override
     @Transactional
+    /**
+     * 秒杀订单对缓存的操作   LH
+     */
     public void saveOrderFromRedis(String userId, Long orderId, String transactionId) {
         SeckillOrder seckillOrder = searchOrderFromRedis(userId);
         if (seckillOrder==null){
             throw new RuntimeException("订单不存在");
         }
         if (seckillOrder.getId().longValue()!=orderId.longValue()){
-            throw new RuntimeException("订单不相符");
+            throw new RuntimeException("订单不是你的");
         }
         //设置属性
         seckillOrder.setStatus("1");
@@ -90,6 +94,10 @@ public class SeckillOrderServiceImpl implements SeckillOrderService {
     }
 
     @Override
+
+    /**
+     * 秒杀中缓存的操作  LH
+     */
     public void deleteOrderFromRedis(String userId, Long orderId) {
         //取出redis中的订单
         SeckillOrder seckillOrder = (SeckillOrder) redisTemplate.boundHashOps("seckillOrder").get(userId);
