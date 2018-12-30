@@ -6,13 +6,19 @@ import cn.itcast.core.dao.log.PayLogDao;
 import cn.itcast.core.dao.order.OrderDao;
 import cn.itcast.core.dao.order.OrderItemDao;
 import cn.itcast.core.pojo.Cart;
+import cn.itcast.core.pojo.good.Goods;
+import cn.itcast.core.pojo.good.GoodsQuery;
 import cn.itcast.core.pojo.item.Item;
 import cn.itcast.core.pojo.log.PayLog;
 import cn.itcast.core.pojo.order.Order;
 import cn.itcast.core.pojo.order.OrderItem;
 
+import cn.itcast.core.pojo.order.OrderQuery;
 import com.alibaba.dubbo.config.annotation.Service;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import entity.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import java.math.BigDecimal;
@@ -135,6 +141,33 @@ public class OrderServiceImpl implements OrderService {
 
     }
 
+
+    //订单查询 wph
+
+    @Override
+    public PageResult search(Integer page, Integer rows, Order order) {
+        //分页插件
+        PageHelper.startPage(page, rows);
+
+
+        OrderQuery orderQuery = new OrderQuery();
+        OrderQuery.Criteria criteria = orderQuery.createCriteria();
+        //判断 状态
+        if (null != order.getStatus() && !"".equals(order.getStatus())) {
+            criteria.andStatusEqualTo(order.getStatus());
+        }
+        //判断 订单id
+        if (null != order.getOrderId()) {
+            criteria.andOrderIdEqualTo(order.getOrderId());
+        }
+
+        //只查询当前登陆人(商家的商品)
+        criteria.andSellerIdEqualTo(order.getSellerId());
+
+        Page<Order> p = (Page<Order>) orderDao.selectByExample(orderQuery);
+
+        return new PageResult(p.getTotal(), p.getResult());
+    }
 
 
 }

@@ -64,6 +64,19 @@ app.controller('specificationController' ,function($scope,$controller   ,specifi
 			}		
 		);				
 	}
+    //批量提交规格审核
+    $scope.commit=function(){
+
+        //获取选中的复选框
+        specificationService.commit($scope.selectIds).success(
+            function(response){
+                if(response.flag){
+                    $scope.reloadList();//刷新列表
+                    $scope.selectIds = [];
+                }
+            }
+        );
+    }
 	
 	$scope.searchEntity={};//定义搜索对象 
 	
@@ -73,9 +86,11 @@ app.controller('specificationController' ,function($scope,$controller   ,specifi
 			function(response){
 				$scope.list=response.rows;	
 				$scope.paginationConf.totalItems=response.total;//更新总记录数
+
 			}			
 		);
 	}
+
 	
 	
 	
@@ -86,5 +101,5 @@ app.controller('specificationController' ,function($scope,$controller   ,specifi
 	$scope.deleteTableRow = function(index){
 		$scope.entity.specificationOptionList.splice(index,1);
 	}
-    
+    $scope.status = ["未审核","待审核","审核通过"];
 });	

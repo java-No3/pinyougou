@@ -189,6 +189,11 @@ public class SpecificationQuery {
             return (Criteria) this;
         }
 
+        public Criteria andstatusEqualTo(String value) {
+            addCriterion("status !=", value, "status");
+            return (Criteria) this;
+        }
+
         public Criteria andSpecNameNotEqualTo(String value) {
             addCriterion("spec_name <>", value, "specName");
             return (Criteria) this;

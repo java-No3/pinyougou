@@ -53,7 +53,6 @@ public class PayController {
                     if (x > 100) {
                         //五分钟
                         //调用微信那边关闭订单Api (同学完成了)
-
                         return new Result(false, "二维码超时");
                     }
                 }
@@ -64,5 +63,4 @@ public class PayController {
         }
 
     }
-
 }

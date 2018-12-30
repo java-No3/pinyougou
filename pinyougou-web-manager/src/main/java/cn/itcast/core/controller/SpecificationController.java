@@ -23,10 +23,19 @@ public class SpecificationController {
     @Reference
     private SpecificationService specificationService;
 
+    /**
+     * ZQ12.28
+     * @param page
+     * @param rows
+     * @param specification
+     * @return
+     */
     //查询分页对象 带条件
     @RequestMapping("/search")
     public PageResult search(Integer page, Integer rows, @RequestBody Specification specification){
-        return specificationService.search(page,rows,specification);
+        specification.setId((long) 1);
+        PageResult search = specificationService.search(page, rows, specification);
+        return search;
     }
 
     //规格添加
@@ -40,7 +49,7 @@ public class SpecificationController {
             return new Result(false,"失败");
         }
     }
-    //规格添加
+    //规格修改
     @RequestMapping("/update")
     public Result update(@RequestBody SpecificationVo vo){
         try {
@@ -60,5 +69,18 @@ public class SpecificationController {
     @RequestMapping("/selectOptionList")
     public List<Map> selectOptionList(){
         return specificationService.selectOptionList();
+    }
+
+    //ZQ规格批量审核
+    @RequestMapping("/commit")
+    public Result commit(Long[] ids){
+        try {
+            specificationService.commit(ids);
+            return new Result(true,"审核成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false,"审核失败");
+        }
+
     }
 }
