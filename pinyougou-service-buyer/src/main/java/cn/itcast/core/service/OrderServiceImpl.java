@@ -10,10 +10,8 @@ import cn.itcast.core.pojo.good.Goods;
 import cn.itcast.core.pojo.good.GoodsQuery;
 import cn.itcast.core.pojo.item.Item;
 import cn.itcast.core.pojo.log.PayLog;
-import cn.itcast.core.pojo.order.Order;
-import cn.itcast.core.pojo.order.OrderItem;
+import cn.itcast.core.pojo.order.*;
 
-import cn.itcast.core.pojo.order.OrderQuery;
 import com.alibaba.dubbo.config.annotation.Service;
 
 import com.github.pagehelper.Page;
@@ -22,6 +20,8 @@ import entity.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -46,6 +46,8 @@ public class OrderServiceImpl implements OrderService {
     private OrderDao orderDao;
     @Autowired
     private PayLogDao payLogDao;
+
+
     //保存订单主表  订单详情表
     @Override
     public void add(Order order) {
@@ -168,6 +170,32 @@ public class OrderServiceImpl implements OrderService {
 
         return new PageResult(p.getTotal(), p.getResult());
     }
+
+    //订单统计查询 wph
+    @Override
+    public PageResult countOrder(Integer page, Integer rows, OrderSearch orderSearch) {
+        //分页插件
+        PageHelper.startPage(page, rows);
+
+        //设置起始时间
+        if (null == orderSearch.getStartTime() || "".equals(orderSearch.getStartTime())) {
+            orderSearch.setStartTime("1970-01-01 00:00:00");
+        }
+        //设置结束时间
+        if (null == orderSearch.getEndTime() || "".equals(orderSearch.getEndTime())) {
+            Date date = new Date();
+            //yyyy-MM-dd hh:mm:ss
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            orderSearch.setEndTime(df.format(date));
+        }
+
+
+         Page<OrderCount> p = (Page<OrderCount>) orderItemDao.selectOrderCount(orderSearch);
+
+
+        return new PageResult(p.getTotal(), p.getResult());
+    }
+
 
 
 }
