@@ -1,8 +1,11 @@
 package cn.itcast.core.service;
 import cn.itcast.common.utils.HttpClient;
+import cn.itcast.core.pojo.log.PayLog;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.github.wxpay.sdk.WXPayUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 
 
 import java.util.HashMap;
@@ -24,6 +27,9 @@ public class PayServiceImpl implements PayService {
 
     @Value("${partnerkey}")
     private String partnerkey;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
 
 
     @Override
@@ -113,6 +119,38 @@ public class PayServiceImpl implements PayService {
             }
         }
         return map;
+    }
+
+    @Override
+    public Map<String, String> createNative1(String name) {
+        PayLog payLog = (PayLog) redisTemplate.boundHashOps("payLog").get(name);
+        Map<String, String> param = new HashMap<>();
+        param.put("appid", appid);
+        param.put("mch_id", partner);
+        param.put("nonce_str", WXPayUtil.generateNonceStr());
+        param.put("body", "品优购");
+        param.put("out_trade_no", payLog.getOutTradeNo());
+        param.put("total_fee", "1");
+        param.put("spbill_create_ip", "127.0.0.1");
+        param.put("notify_url", "www.itcast.cn");
+        param.put("trade_type", "NATIVE");
+
+        try {
+            String xml = WXPayUtil.generateSignedXml(param, partnerkey);
+            String url = "https://api.mch.weixin.qq.com/pay/unifiedorder";
+            HttpClient httpClient = new HttpClient(url);
+            httpClient.setHttps(true);
+            httpClient.setXmlParam(xml);
+            httpClient.post();
+            String result = httpClient.getContent();
+            Map<String, String> map = WXPayUtil.xmlToMap(result);
+            map.put("out_trade_no",payLog.getOutTradeNo());
+            map.put("total_fee",String.valueOf(payLog.getTotalFee()));
+            return map;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
 

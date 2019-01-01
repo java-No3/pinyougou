@@ -1,7 +1,7 @@
 package cn.itcast.core.service;
 
 import cn.itcast.core.pojo.seckill.SeckillOrder;
-
+import com.github.pagehelper.PageInfo;
 
 
 /**
@@ -16,4 +16,5 @@ public interface SeckillOrderService {
     void saveOrderFromRedis(String userId,Long orderId,String transactionId);
 
     void deleteOrderFromRedis(String userId,Long orderId);
+
 }

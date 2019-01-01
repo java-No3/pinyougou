@@ -10,4 +10,6 @@ public interface PayService {
 
     //  实时查询商品支付状态   LH
     Map queryPayStatusWhile(String out_trade_no);
+
+    Map<String,String> createNative1(String name);
 }

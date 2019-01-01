@@ -1,6 +1,5 @@
 package cn.itcast.core.service;
 import cn.itcast.core.dao.seckill.SeckillOrderDao;
-import cn.itcast.core.pojo.order.Order;
 import cn.itcast.core.pojo.seckill.SeckillOrder;
 import cn.itcast.core.pojo.seckill.SeckillOrderQuery;
 import com.alibaba.dubbo.config.annotation.Service;
@@ -13,35 +12,29 @@ import java.util.List;
 
 
 /**
- * 秒杀商品订单运营商查询
+ * 商家后台秒杀订单查询    LH
  */
-
-@SuppressWarnings("ALL")
 @Service
-public class SeckillOrderManagerServiceImpl implements SeckillOrderManagerService {
+@SuppressWarnings("ALL")
+public class SeckillOrderQTServiceImpl implements SeckillOrderQTService {
 
     @Autowired
     private SeckillOrderDao seckillOrderDao;
-
-    /**
-     * 根据商家ID查询秒杀商品订单
-     * @param page
-     * @param rows
-     * @param seckillOrder
-     * @return
-     */
     @Override
-    public PageInfo<SeckillOrder> search(Integer page,Integer rows,SeckillOrder seckillOrder) {
+    public PageInfo<SeckillOrder> search(Integer page, Integer rows, SeckillOrder seckillOrder) {
+        // 设置分页条件
         PageHelper.startPage(page, rows);
+        // 设置查询条件
         SeckillOrderQuery query = new SeckillOrderQuery();
         SeckillOrderQuery.Criteria criteria = query.createCriteria();
         if (seckillOrder.getSellerId()!=null && !"".equals(seckillOrder.getSellerId().trim())){
             criteria.andSellerIdEqualTo(seckillOrder.getSellerId().trim());
         }
         criteria.andStatusEqualTo("1");
-        query.setOrderByClause("create_time desc");
+        query.setOrderByClause("create_time desc");// 降序
+        // 查询
         List<SeckillOrder> seckillOrders = seckillOrderDao.selectByExample(query);
-        PageInfo<SeckillOrder> pageInfo = new PageInfo<>(seckillOrders);
+        PageInfo<SeckillOrder> pageInfo=new PageInfo<>(seckillOrders);
         return pageInfo;
     }
 
@@ -58,5 +51,4 @@ public class SeckillOrderManagerServiceImpl implements SeckillOrderManagerServic
         Page<SeckillOrder> p = (Page<SeckillOrder>) seckillOrderDao.selectByExample(null);
         return new PageResult(p.getTotal(), p.getResult());
     }
-
 }
