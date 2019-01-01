@@ -4,8 +4,8 @@ import cn.itcast.core.pojo.order.OrderCount;
 import cn.itcast.core.pojo.order.OrderItem;
 import cn.itcast.core.pojo.order.OrderItemQuery;
 import java.util.List;
+import java.util.Map;
 
-import cn.itcast.core.pojo.order.OrderSearch;
 import org.apache.ibatis.annotations.Param;
 
 public interface OrderItemDao {
@@ -31,5 +31,5 @@ public interface OrderItemDao {
 
     int updateByPrimaryKey(OrderItem record);
 
-    List<OrderCount> selectOrderCount(OrderSearch orderSearch);
+    List<OrderCount> selectOrderCount(@Param("params") Map<String,String> searchMap);
 }

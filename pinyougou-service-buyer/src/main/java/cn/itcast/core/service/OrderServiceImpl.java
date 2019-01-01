@@ -25,6 +25,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 订单管理   LH
@@ -173,24 +174,24 @@ public class OrderServiceImpl implements OrderService {
 
     //订单统计查询 wph
     @Override
-    public PageResult countOrder(Integer page, Integer rows, OrderSearch orderSearch) {
+    public PageResult countOrder(Map<String,String> searchMap) {
         //分页插件
-        PageHelper.startPage(page, rows);
+        PageHelper.startPage(Integer.parseInt(searchMap.get("page")), Integer.parseInt(searchMap.get("rows")));
 
         //设置起始时间
-        if (null == orderSearch.getStartTime() || "".equals(orderSearch.getStartTime())) {
-            orderSearch.setStartTime("1970-01-01 00:00:00");
+        if (null == searchMap.get("startTime") || "".equals(searchMap.get("startTime"))) {
+            searchMap.put("startTime","1970-01-01 00:00:00");
         }
         //设置结束时间
-        if (null == orderSearch.getEndTime() || "".equals(orderSearch.getEndTime())) {
+        if (null == searchMap.get("endTime") || "".equals(searchMap.get("endTime"))) {
             Date date = new Date();
             //yyyy-MM-dd hh:mm:ss
             DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            orderSearch.setEndTime(df.format(date));
+            searchMap.put("endTime",df.format(date));
         }
 
 
-         Page<OrderCount> p = (Page<OrderCount>) orderItemDao.selectOrderCount(orderSearch);
+         Page<OrderCount> p = (Page<OrderCount>) orderItemDao.selectOrderCount(searchMap);
 
 
         return new PageResult(p.getTotal(), p.getResult());

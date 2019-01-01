@@ -46,9 +46,9 @@
 
         <div class="box-tools pull-right">
             <div class="has-feedback">
-                <input type="datetime-local" id="timer1" ng-model="searchEntity.startTime"/>~
-                <input type="datetime-local" id="timer2" ng-model="searchEntity.endTime"/>&nbsp;&nbsp;&nbsp;
-                商品名称：<input type="text" ng-model="searchEntity.Title"/>
+                <input type="datetime-local" id="timer1" ng-model="searchMap.startTime"/>~
+                <input type="datetime-local" id="timer2" ng-model="searchMap.endTime"/>&nbsp;&nbsp;&nbsp;
+                商品名称：<input type="text" ng-model="searchMap.title"/>
                 <button class="btn btn-default" ng-click="reloadList()">查询</button>
             </div>
         </div>
@@ -58,9 +58,6 @@
         <table id="dataList" class="table table-bordered table-striped table-hover dataTable">
             <thead>
             <tr>
-                <!--<th class="" style="padding-right:0px">-->
-                <!--<input id="selall" type="checkbox" class="icheckbox_square-blue">-->
-                <!--</th> -->
                 <th class="sorting_asc">商品ID</th>
                 <th class="sorting">库存ID</th>
                 <th class="sorting">商品名称</th>
