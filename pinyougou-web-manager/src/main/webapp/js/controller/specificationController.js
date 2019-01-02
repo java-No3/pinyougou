@@ -1,5 +1,5 @@
  //控制层 
-app.controller('specificationController' ,function($scope,$controller   ,specificationService){	
+app.controller('specificationController' ,function($scope,$controller ,uploadService ,$http,specificationService){
 	
 	$controller('baseController',{$scope:$scope});//继承
 	
@@ -86,5 +86,40 @@ app.controller('specificationController' ,function($scope,$controller   ,specifi
 	$scope.deleteTableRow = function(index){
 		$scope.entity.specificationOptionList.splice(index,1);
 	}
+
+
+    // 文件上传的方法:
+    $scope.uploadFile = function(){
+        uploadService.uploadFile().success(function(response){
+            if(response.flag){
+                $scope.entity = response.message;
+            }else{
+                alert(response.message);
+            }
+        });
+    }
+
+    // 导入数据库 szj
+    $scope.importDb = function(pic){
+        specificationService.importDb(pic).success(function(response){
+            if(response.flag){
+                alert(response.message);
+
+            }else{
+                alert(response.message);
+            }
+        });
+    }
+    // 导入数据库 szj
+    $scope.importDb2 = function(pic){
+        specificationService.importDb2(pic).success(function(response){
+            if(response.flag){
+                alert(response.message);
+
+            }else{
+                alert(response.message);
+            }
+        });
+    }
     
 });	

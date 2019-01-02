@@ -17,4 +17,8 @@ public interface SpecificationService {
     void update(SpecificationVo vo);
 
     List<Map> selectOptionList();
+
+    void importSpecification(String[] string) throws Exception;
+
+    void importSpecificationList(String[] string) throws Exception;
 }

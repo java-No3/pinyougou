@@ -1,5 +1,5 @@
 // 定义控制器:
-app.controller("brandController",function($scope,$controller,$http,brandService){
+app.controller("brandController",function($scope,$controller,uploadService,$http,brandService){
 	// AngularJS中的继承:伪继承
 	$controller('baseController',{$scope:$scope});
 	
@@ -79,5 +79,27 @@ app.controller("brandController",function($scope,$controller,$http,brandService)
 			$scope.list = response.rows;
 		});
 	}
-	
+
+    // 文件上传的方法:
+    $scope.uploadFile = function(){
+        uploadService.uploadFile().success(function(response){
+            if(response.flag){
+                $scope.entity = response.message;
+            }else{
+                alert(response.message);
+            }
+        });
+    }
+
+    // 导入数据库 szj
+    $scope.importDb = function(pic){
+        brandService.importDb(pic).success(function(response){
+            if(response.flag){
+                alert(response.message);
+
+            }else{
+                alert(response.message);
+            }
+        });
+    }
 });

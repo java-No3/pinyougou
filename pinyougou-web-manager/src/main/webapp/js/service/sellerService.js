@@ -33,4 +33,11 @@ app.service('sellerService',function($http){
 	this.updateStatus = function(sellerId,status){
 		return $http.get('../seller/updateStatus.do?sellerId='+sellerId+"&status="+status);
 	}
+
+	// 导出excel szj
+	this.exportExcel = function(){
+		return $http.get('../seller/exportSellerInfoExcel.do');
+	}
+
+
 });

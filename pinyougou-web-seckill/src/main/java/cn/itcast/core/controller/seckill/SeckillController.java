@@ -2,7 +2,8 @@ package cn.itcast.core.controller.seckill;
 
 
 import cn.itcast.core.pojo.seckill.SeckillGoods;
-import cn.itcast.core.service.seckill.SeckillGoodsService;
+
+import cn.itcast.core.service.SeckillGoodsService;
 import com.alibaba.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

@@ -1,4 +1,4 @@
-package cn.itcast.service.seckill;
+package cn.itcast.core.service.seckill;
 
 import cn.itcast.core.dao.seckill.SeckillGoodsDao;
 import cn.itcast.core.pojo.seckill.SeckillGoods;

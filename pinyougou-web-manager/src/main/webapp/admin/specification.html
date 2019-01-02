@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="../plugins/angularjs/pagination.css">
     
     <script type="text/javascript" src="../js/base_pagination.js"></script>
+    <script type="text/javascript" src="../js/service/uploadService.js"></script>
     <script type="text/javascript" src="../js/controller/baseController.js"></script>
     <script type="text/javascript" src="../js/service/specificationService.js"></script>
     <script type="text/javascript" src="../js/controller/specificationController.js"></script>
@@ -83,8 +84,18 @@
                         <!-- 分页 -->
 						<tm-pagination conf="paginationConf"></tm-pagination>
                      </div>
-                    <!-- /.box-body -->                    
-	          		    
+                    <!-- /.box-body -->
+  <div>
+	  <tr>
+		  <input type="file" id="file"/> <input type="button" value="上传文件" ng-click="uploadFile()"/>
+
+		  <input type="button" value="导入规格" ng-click="importDb(entity)"/>
+	  </tr>
+	  <tr>
+
+		  <input type="button" value="导入规格选项" ng-click="importDb2(entity)"/>
+	  </tr>
+  </div>
                                 
 <!-- 编辑窗口 -->
 <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

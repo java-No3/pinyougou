@@ -1,5 +1,6 @@
 package cn.itcast.core.controller;
 
+import cn.itcast.common.utils.POIUtil;
 import cn.itcast.core.pojo.specification.Specification;
 import cn.itcast.core.service.SpecificationService;
 import com.alibaba.dubbo.config.annotation.Reference;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pojogroup.SpecificationVo;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -60,5 +62,35 @@ public class SpecificationController {
     @RequestMapping("/selectOptionList")
     public List<Map> selectOptionList(){
         return specificationService.selectOptionList();
+    }
+
+
+    // excel 导入数据库 szj
+    @RequestMapping("importDb")
+    public Result importDb(String url , HttpServletRequest request ) throws Exception {
+        List<String[]> strings = POIUtil.readExcel(url,request);
+        try {
+            for (String[] string : strings) {
+                specificationService.importSpecification(string);
+            }
+            return new Result(true,"成功");
+        }catch ( Exception e){
+            e.printStackTrace();
+            return new Result(false,"导入失败，请重新导入");
+        }
+    }
+
+    @RequestMapping("importDb2")
+    public Result importDb2(String url , HttpServletRequest request ) throws Exception {
+        List<String[]> strings = POIUtil.readExcel(url,request);
+        try {
+            for (String[] string : strings) {
+                specificationService.importSpecificationList(string);
+            }
+            return new Result(true,"成功");
+        }catch ( Exception e){
+            e.printStackTrace();
+            return new Result(false,"导入失败，请重新导入");
+        }
     }
 }

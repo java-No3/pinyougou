@@ -27,4 +27,9 @@ app.service("orderService",function($http){
     this.selectOptionList = function(){
         return $http.get("../order/selectOptionList.do");
     }
+
+    // 导出excel szj
+    this.exportExcel = function(){
+        return $http.get('../order/exportOrdersInfoExcel.do');
+    }
 });

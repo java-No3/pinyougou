@@ -1,5 +1,6 @@
 package cn.itcast.core.service;
 
+import cn.itcast.common.utils.POIUtil;
 import cn.itcast.core.dao.good.BrandDao;
 import cn.itcast.core.pojo.good.Brand;
 import cn.itcast.core.pojo.good.BrandQuery;
@@ -8,9 +9,12 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import entity.PageResult;
+import entity.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+import sun.misc.Request;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -68,6 +72,7 @@ public class BrandServiceImpl implements  BrandService {
         return brandDao.selectOptionList();
     }
 
+
     @Override
     public void add(Brand brand) {
         brandDao.insertSelective(brand);
@@ -98,9 +103,18 @@ public class BrandServiceImpl implements  BrandService {
         BrandQuery brandQuery = new BrandQuery();
         brandQuery.createCriteria().andIdIn(Arrays.asList(ids));
         brandDao.deleteByExample(brandQuery);
-
-
     }
 
-
+    // excel导入数据库 szj
+    @Override
+    public void importBrand(String[] string) throws Exception{
+//        if (null != string && 1 < string.length){
+            String brandName = string[0];
+            String firstChar = string[1];
+            Brand brand = new Brand();
+            brand.setName(brandName);
+            brand.setFirstChar(firstChar);
+            add(brand);
+        }
+//    }
 }
