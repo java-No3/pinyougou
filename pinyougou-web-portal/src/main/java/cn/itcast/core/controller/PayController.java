@@ -1,6 +1,6 @@
 package cn.itcast.core.controller;
-
 import cn.itcast.core.service.PayService;
+import cn.itcast.core.service.SeckillOrderService;
 import com.alibaba.dubbo.config.annotation.Reference;
 import entity.Result;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,6 +19,10 @@ public class PayController {
     @Reference
     private PayService payService;
 
+    @Reference
+    private SeckillOrderService seckillOrderService;
+
+
     //获取生成二维码Value 地址
     @RequestMapping("/createNative")
     public Map<String, String> createNative() {
@@ -26,41 +30,43 @@ public class PayController {
         return payService.createNative1(name);
     }
 
-    //根据支付订单号查询 支付状态
+
+    @SuppressWarnings("ALL")
     @RequestMapping("/queryPayStatus")
     public Result queryPayStatus(String out_trade_no) {
-        try {
-            int x = 0;
-
-            while (true) {
-
-                Map<String, String> map = payService.queryPayStatus(out_trade_no);
-                //判断交易状态
-                if ("SUCCESS".equals(map.get("trade_state"))) {
-//                SUCCESS—支付成功
-                    System.out.println(map.get("trade_state"));
-                    System.out.println();
-                    return new Result(true, "支付成功");
-                }
-                if ("NOTPAY".equals(map.get("trade_state")) ||
-                        "CLOSED".equals(map.get("trade_state"))
-                        || "REVOKED".equals(map.get("trade_state"))
-                        || "USERPAYING".equals(map.get("trade_state"))
-                        || "PAYERROR".equals(map.get("trade_state"))) {
-
-                    Thread.sleep(3000);
-                    x++;
-                    if (x > 100) {
-                        //五分钟
-                        //调用微信那边关闭订单Api (同学完成了)
-                        return new Result(false, "二维码超时");
+       //获取当前用户
+        String userId = SecurityContextHolder.getContext().getAuthentication().getName();
+        Result result = null;
+        Map map = payService.queryPayStatusWhile(out_trade_no);
+        int x = 0;
+        while (true) {
+            try {
+                Thread.sleep(3000);//间隔三秒
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            //不让循环无休止地运行定义变量，如果超过了这个值则退出循环，设置时间为 1 分钟
+            x++;
+            if (x > 20) {
+                result = new Result(false, "二维码超时");
+                //1.调用微信的关闭订单接口（学员实现）
+                Map<String, String> payresult = payService.closePay(out_trade_no);
+                if (!"SUCCESS".equals(payresult.get("result_code"))) {
+                    if ("ORDERPAID".equals(payresult.get("err_code"))) {
+                        seckillOrderService.saveOrderFromRedis(userId, Long.valueOf(out_trade_no), (String) map.get("transaction_id"));
+                        result = new Result(true, "支付成功");
                     }
                 }
+                if (result.isFlag() == false) {
+                    System.out.println("超时，取消订单");
+                    result = new Result(false,"支付超时，取消订单");
+                    //2.调用删除
+                    seckillOrderService.deleteOrderFromRedis(userId, Long.valueOf(out_trade_no));
+                }
+                break;
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new Result(false, "支付失败");
         }
+        return result;
 
     }
 }

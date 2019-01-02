@@ -33,25 +33,15 @@ app.controller('payController' ,function($scope ,$location,payService){
 					location.href="paysuccess.html#?money="+$scope.money;
 				}else{
 					if(response.message=='二维码超时'){
-						alert("你也太慢了吧,超时了,别付了")
-						//$scope.createNative();//重新生成二维码
-					}else{
+						location.href="payTimeOut.html"
+                    }else{
 						location.href="payfail.html";
 					}
 				}				
 			}		
 		);		
 	}
-	//关闭订单
-    closeOrder=function(){
-		payService.closeOrder($scope,out_trade_no).success(
-			function (response) {
-				if(response.flag){
-					location.href="payfail"
-				}
-            }
-		)
-	}
+
 	
 	//获取金额
 	$scope.getMoney=function(){

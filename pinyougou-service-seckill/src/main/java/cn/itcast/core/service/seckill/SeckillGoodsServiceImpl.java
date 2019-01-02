@@ -1,12 +1,24 @@
 package cn.itcast.core.service.seckill;
 import cn.itcast.core.dao.seckill.SeckillGoodsDao;
+import cn.itcast.core.pojo.good.Goods;
+import cn.itcast.core.pojo.good.GoodsQuery;
 import cn.itcast.core.pojo.seckill.SeckillGoods;
 import cn.itcast.core.pojo.seckill.SeckillGoodsQuery;
 import cn.itcast.core.service.SeckillGoodsService;
 import com.alibaba.dubbo.config.annotation.Service;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import entity.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.jms.core.JmsTemplate;
+import org.springframework.jms.core.MessageCreator;
 import org.springframework.scheduling.annotation.Scheduled;
+
+import javax.jms.Destination;
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.Session;
 import java.util.Date;
 import java.util.List;
 
@@ -22,6 +34,15 @@ public class SeckillGoodsServiceImpl implements SeckillGoodsService {
 
     @Autowired
     private SeckillGoodsDao seckillGoodsDao;
+
+    @Autowired
+    private JmsTemplate jmsTemplate;
+
+    @Autowired
+    private Destination topicPageAndSolrDestination;
+    @Autowired
+    private Destination queueSolrDeleteDestination;
+
 
     @Override
     public List<SeckillGoods> findList() {
@@ -62,6 +83,8 @@ public class SeckillGoodsServiceImpl implements SeckillGoodsService {
     public SeckillGoods findOneFromRedis(Long id) {
         return (SeckillGoods) redisTemplate.boundHashOps("seckillGoods").get(id);
     }
+
+
 
 
     /**

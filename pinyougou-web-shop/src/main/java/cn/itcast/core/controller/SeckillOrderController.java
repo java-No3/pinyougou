@@ -17,7 +17,7 @@ import java.util.List;
  * 商家后台秒杀订单查询  LH
  */
 @RestController
-@RequestMapping("/order")
+@RequestMapping("/orderQT")
 public class SeckillOrderController {
     @Reference
     private SeckillOrderQTService seckillOrderQTService;
