@@ -23,7 +23,7 @@ public class PayController {
     @RequestMapping("/createNative")
     public Map<String, String> createNative() {
         String name = SecurityContextHolder.getContext().getAuthentication().getName();
-        return payService.createNative(name);
+        return payService.createNative1(name);
     }
 
     //根据支付订单号查询 支付状态

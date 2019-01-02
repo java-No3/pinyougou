@@ -58,12 +58,20 @@ public class UserController {
 
     }
 
+    //个人信息注册 wph
     @RequestMapping("/regis")
     public Result regis(@RequestBody User user) {
+        try {
+            //获取用户名
+            String username = SecurityContextHolder.getContext().getAuthentication().getName();
+            user.setUsername(username);
+            userService.regis(user);
+            return new Result(true,"注册成功");
+        }catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false,"注册失败");
 
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        System.out.println(user);
-        System.out.println(username);
-        return null;
+        }
+
     }
 }

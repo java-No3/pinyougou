@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
- * 上传图片
+ * wph
+ * 上传头像照片
  */
 @RestController
 @RequestMapping("/upload")

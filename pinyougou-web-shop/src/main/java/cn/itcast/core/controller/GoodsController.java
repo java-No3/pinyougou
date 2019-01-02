@@ -1,7 +1,9 @@
 package cn.itcast.core.controller;
 
 import cn.itcast.core.pojo.good.Goods;
+import cn.itcast.core.pojo.order.Order;
 import cn.itcast.core.service.GoodsService;
+import cn.itcast.core.service.OrderService;
 import com.alibaba.dubbo.config.annotation.Reference;
 import entity.PageResult;
 import entity.Result;
@@ -21,6 +23,8 @@ public class GoodsController {
 
     @Reference
     private GoodsService goodsService;
+    @Reference
+    private OrderService orderService;
 
     //添加
     @RequestMapping("/add")
@@ -61,4 +65,6 @@ public class GoodsController {
     public GoodsVo findOne(Long id){
         return goodsService.findOne(id);
     }
+
+
 }

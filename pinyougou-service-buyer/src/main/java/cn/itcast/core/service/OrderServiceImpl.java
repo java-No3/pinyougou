@@ -6,19 +6,26 @@ import cn.itcast.core.dao.log.PayLogDao;
 import cn.itcast.core.dao.order.OrderDao;
 import cn.itcast.core.dao.order.OrderItemDao;
 import cn.itcast.core.pojo.Cart;
+import cn.itcast.core.pojo.good.Goods;
+import cn.itcast.core.pojo.good.GoodsQuery;
 import cn.itcast.core.pojo.item.Item;
 import cn.itcast.core.pojo.log.PayLog;
-import cn.itcast.core.pojo.order.Order;
-import cn.itcast.core.pojo.order.OrderItem;
+import cn.itcast.core.pojo.order.*;
 
 import com.alibaba.dubbo.config.annotation.Service;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import entity.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 订单管理   LH
@@ -40,6 +47,8 @@ public class OrderServiceImpl implements OrderService {
     private OrderDao orderDao;
     @Autowired
     private PayLogDao payLogDao;
+
+
     //保存订单主表  订单详情表
     @Override
     public void add(Order order) {
@@ -134,4 +143,60 @@ public class OrderServiceImpl implements OrderService {
         redisTemplate.boundHashOps("payLog").put(order.getUserId(),payLog);
 
     }
+
+
+    //订单查询 wph
+
+    @Override
+    public PageResult search(Integer page, Integer rows, Order order) {
+        //分页插件
+        PageHelper.startPage(page, rows);
+
+
+        OrderQuery orderQuery = new OrderQuery();
+        OrderQuery.Criteria criteria = orderQuery.createCriteria();
+        //判断 状态
+        if (null != order.getStatus() && !"".equals(order.getStatus())) {
+            criteria.andStatusEqualTo(order.getStatus());
+        }
+        //判断 订单id
+        if (null != order.getOrderId()) {
+            criteria.andOrderIdEqualTo(order.getOrderId());
+        }
+
+        //只查询当前登陆人(商家的商品)
+        criteria.andSellerIdEqualTo(order.getSellerId());
+
+        Page<Order> p = (Page<Order>) orderDao.selectByExample(orderQuery);
+
+        return new PageResult(p.getTotal(), p.getResult());
+    }
+
+    //订单统计查询 wph
+    @Override
+    public PageResult countOrder(Map<String,String> searchMap) {
+        //分页插件
+        PageHelper.startPage(Integer.parseInt(searchMap.get("page")), Integer.parseInt(searchMap.get("rows")));
+
+        //设置起始时间
+        if (null == searchMap.get("startTime") || "".equals(searchMap.get("startTime"))) {
+            searchMap.put("startTime","1970-01-01 00:00:00");
+        }
+        //设置结束时间
+        if (null == searchMap.get("endTime") || "".equals(searchMap.get("endTime"))) {
+            Date date = new Date();
+            //yyyy-MM-dd hh:mm:ss
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            searchMap.put("endTime",df.format(date));
+        }
+
+
+         Page<OrderCount> p = (Page<OrderCount>) orderItemDao.selectOrderCount(searchMap);
+
+
+        return new PageResult(p.getTotal(), p.getResult());
+    }
+
+
+
 }

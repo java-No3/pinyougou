@@ -13,6 +13,8 @@
 	<http pattern="/search.html" security="none"></http>
 
  	<http pattern="/cart.html" security="none"></http>
+    <http pattern="/content/*.do" security="none"></http>
+    <http pattern="/itemsearch/*.do" security="none"></http>
     	
 	<!--   entry-point-ref  入口点引用 -->
 	<http use-expressions="false" entry-point-ref="casProcessingFilterEntryPoint"> 

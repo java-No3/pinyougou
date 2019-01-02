@@ -32,6 +32,4 @@ app.controller('seckillOrderController' ,function($scope,$controller,seckillOrde
             }
         );
     }
-
-
 })
