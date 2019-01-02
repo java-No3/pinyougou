@@ -11,22 +11,28 @@ import javax.jms.MessageListener;
 import javax.servlet.ServletContext;
 
 /**
- * 消息自定义处理类
+ * ZQ自定义消息处理类
  */
-public class PageListener implements MessageListener   {
+public class PageDeleListener implements MessageListener  {
     @Autowired
     private StaticPageService staticPageService;
+
     @Override
     public void onMessage(Message message) {
-        ActiveMQTextMessage atm = (ActiveMQTextMessage) message;
-        try {
-            String id = atm.getText();
-            System.out.println("静态化项目接收到的ID:" + id);
 
-            //3:静态化处理(生成静态的页面)
-            staticPageService.index(Long.parseLong(id));
+
+        ActiveMQTextMessage atm= (ActiveMQTextMessage) message;
+        //删除静态页面
+        try {
+            //获取需要删除的id
+            String id = atm.getText();
+            System.out.println("静态化项目删除接收到的ID:" + id);
+            //删除id
+            staticPageService.delete(Long.parseLong(id));
         } catch (JMSException e) {
             e.printStackTrace();
         }
     }
+
+
 }

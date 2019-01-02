@@ -71,7 +71,7 @@ app.controller('typeTemplateController' ,function($scope,$controller,brandServic
 		);				
 	}
 
-    //批量删除
+    //批量审核
     $scope.commit=function(){
         //获取选中的复选框
         typeTemplateService.commit( $scope.selectIds ).success(
@@ -83,6 +83,7 @@ app.controller('typeTemplateController' ,function($scope,$controller,brandServic
             }
         );
     }
+	
 	$scope.searchEntity={};//定义搜索对象 
 	
 	//搜索

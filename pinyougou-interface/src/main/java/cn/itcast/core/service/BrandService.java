@@ -2,7 +2,9 @@ package cn.itcast.core.service;
 
 import cn.itcast.core.pojo.good.Brand;
 import entity.PageResult;
+import entity.Result;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -24,4 +26,8 @@ public interface BrandService {
     PageResult search(Integer pageNum, Integer pageSize, Brand brand);
 
     List<Map> selectOptionList();
+
+
+
+    void importBrand(String[] string) throws Exception;
 }

@@ -3,6 +3,7 @@ package cn.itcast.core.service;
 import cn.itcast.core.pojo.ad.Content;
 import entity.PageResult;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public interface ContentService {

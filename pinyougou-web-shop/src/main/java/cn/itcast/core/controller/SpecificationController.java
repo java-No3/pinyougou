@@ -26,6 +26,7 @@ public class SpecificationController {
     //查询分页对象 带条件
     @RequestMapping("/search")
     public PageResult search(Integer page, Integer rows, @RequestBody Specification specification){
+
         return specificationService.search(page,rows,specification);
     }
 
@@ -66,8 +67,7 @@ public class SpecificationController {
     @RequestMapping("/commit")
     public Result commit(Long[] ids){
         try {
-            System.out.println(ids);
-            specificationService.commit(ids);
+            specificationService.commitShop(ids);
             return new Result(true,"提交审核成功");
         } catch (Exception e) {
             e.printStackTrace();

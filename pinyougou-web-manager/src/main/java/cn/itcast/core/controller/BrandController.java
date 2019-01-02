@@ -1,5 +1,6 @@
 package cn.itcast.core.controller;
 
+import cn.itcast.common.utils.POIUtil;
 import cn.itcast.core.pojo.good.Brand;
 import cn.itcast.core.service.BrandService;
 import com.alibaba.dubbo.config.annotation.Reference;
@@ -103,4 +104,19 @@ public class BrandController {
 
     }
 
+
+    // excel 导入数据库 szj
+    @RequestMapping("importDb")
+    public Result importDb(String url ,HttpServletRequest request ) throws Exception {
+        List<String[]> strings = POIUtil.readExcel(url,request);
+        try {
+            for (String[] string : strings) {
+                brandService.importBrand(string);
+            }
+            return new Result(true,"成功");
+        }catch ( Exception e){
+            e.printStackTrace();
+            return new Result(false,"导入失败，请重新导入");
+        }
+    }
 }

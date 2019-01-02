@@ -25,6 +25,11 @@ app.service('itemCatService',function($http){
 	this.dele=function(ids){
 		return $http.get('../itemCat/delete.do?ids='+ids);
 	}
+	//提交
+    this.commit=function(ids){
+        return $http.get('../itemCat/commit.do?ids='+ids);
+    }
+
 	//搜索
 	this.search=function(page,rows,searchEntity){
 		return $http.post('../itemCat/search.do?page='+page+"&rows="+rows, searchEntity);

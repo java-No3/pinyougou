@@ -30,5 +30,21 @@
 	</bean>
 	<!-- 消息自定义 处理类 -->
 	<bean id="pageListener" class="cn.itcast.core.listener.PageListener"></bean>
+
+
+	<!-- 发布订阅模式，删除静态页-->
+	<bean id="queueSolrDeleteDestination" class="org.apache.activemq.command.ActiveMQTopic">
+		<constructor-arg value="pinyougou_queue_solr_delete"/>
+	</bean>
+
+	<!-- 点对点模式, 消息监听容器  删除静态页-->
+	<!-- 发布者模式, 消息监听容器  删除静态页-->
+	<bean class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+		<property name="connectionFactory" ref="connectionFactory" />
+		<property name="destination" ref="queueSolrDeleteDestination" />
+		<property name="messageListener" ref="itemDeleteListener" />
+	</bean>
+	<!-- 消息自定义处理类 -->
+	<bean id="itemDeleteListener" class="cn.itcast.core.listener.PageDeleListener"></bean>
 	
 </beans>

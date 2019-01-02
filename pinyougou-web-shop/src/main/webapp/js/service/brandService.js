@@ -31,8 +31,4 @@ app.service("brandService",function($http){
 	this.selectOptionList = function(){
 		return $http.get("../brand/selectOptionList.do");
 	}
-
-	this.importDb = function(url){
-		return $http.get("../brand/importDb.do?url="+url);
-	}
 });

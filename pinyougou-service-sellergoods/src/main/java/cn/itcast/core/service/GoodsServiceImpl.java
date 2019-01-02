@@ -130,6 +130,11 @@ public class GoodsServiceImpl implements GoodsService {
         if (null != goods.getAuditStatus() && !"".equals(goods.getAuditStatus())) {
             criteria.andAuditStatusEqualTo(goods.getAuditStatus());
         }
+        //判断是否上架
+        if (null != goods.getIsMarketable() && "".equals(goods.getIsMarketable())){
+            criteria.andIsMarketableEqualTo(goods.getIsMarketable());
+        }
+
         //名称
         if (null != goods.getGoodsName() && !"".equals(goods.getGoodsName().trim())) {
             criteria.andGoodsNameLike("%" + goods.getGoodsName().trim() + "%");
@@ -242,8 +247,29 @@ public class GoodsServiceImpl implements GoodsService {
                     return session.createTextMessage(String.valueOf(id));
                 }
             });
+        }
+    }
 
+    @Override
+    public void updateMarketable(Long[] ids, String status) {
+        Goods goods = new Goods();
+        goods.setIsMarketable(status);
+        //商品表ID
+        for (Long id : ids) {
+            goods.setId(id);
+            //1:商品状态更改
+            goodsDao.updateByPrimaryKeySelective(goods);
+            //判断一定是通过
+            if("1".equals(status)){
+                //2:发消息
+                jmsTemplate.send(topicPageAndSolrDestination, new MessageCreator() {
+                    @Override
+                    public Message createMessage(Session session) throws JMSException {
+                        return session.createTextMessage(String.valueOf(id));
+                    }
+                });
 
+            }
         }
     }
 
@@ -264,17 +290,17 @@ public class GoodsServiceImpl implements GoodsService {
             goods.setId(id);
             //1:商品状态更改
             goodsDao.updateByPrimaryKeySelective(goods);
-            //判断一定是通过
-            if("1".equals(status)){
-                //2:发消息
-                jmsTemplate.send(topicPageAndSolrDestination, new MessageCreator() {
-                    @Override
-                    public Message createMessage(Session session) throws JMSException {
-                        return session.createTextMessage(String.valueOf(id));
-                    }
-                });
-
-            }
+//            //判断一定是通过
+//            if("1".equals(status)){
+//                //2:发消息
+//                jmsTemplate.send(topicPageAndSolrDestination, new MessageCreator() {
+//                    @Override
+//                    public Message createMessage(Session session) throws JMSException {
+//                        return session.createTextMessage(String.valueOf(id));
+//                    }
+//                });
+//
+//            }
         }
 
     }

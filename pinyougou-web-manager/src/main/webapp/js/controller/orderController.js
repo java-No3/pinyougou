@@ -63,4 +63,18 @@ app.controller("orderController",function($scope,$controller,$http,orderService)
             $scope.list = response.rows;
         });
     }
+
+    // 导出excel  szj
+    $scope.exportExcel=function(){
+
+        orderService.exportExcel().success(
+            function(response){
+
+
+            }
+        );
+    }
+
+
+
 });

@@ -75,7 +75,7 @@ public class SpecificationController {
     @RequestMapping("/commit")
     public Result commit(Long[] ids){
         try {
-            specificationService.commit(ids);
+            specificationService.commitManager(ids);
             return new Result(true,"审核成功");
         } catch (Exception e) {
             e.printStackTrace();

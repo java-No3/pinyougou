@@ -16,4 +16,8 @@ public interface TypeTemplateService {
     void update(TypeTemplate tt);
 
     List<Map> findBySpecList(Long id);
+
+    void commitShop(Long[] ids);
+
+    void commitManager(Long[] ids);
 }
