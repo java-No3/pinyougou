@@ -4,4 +4,9 @@ app.service('setService',function($http){
         return  $http.post('../user/regis.do',reg_entity);
     }
 
+    //个人信息回显 wph
+    this.loadInfo=function(){
+        return  $http.get('../user/loadInfo.do');
+    }
+
 });

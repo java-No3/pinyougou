@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 /**
  * 用户管理
  */
@@ -72,6 +74,16 @@ public class UserController {
             return new Result(false,"注册失败");
 
         }
+
+    }
+
+    //个人信息回显 wph
+    @RequestMapping("loadInfo")
+    public User loadInfo() {
+        //获取用户名
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        List<User> users = userService.loadInfo(username);
+        return users.get(0);
 
     }
 }
