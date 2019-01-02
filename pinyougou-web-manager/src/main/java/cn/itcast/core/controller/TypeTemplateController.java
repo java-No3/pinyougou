@@ -23,7 +23,7 @@ public class TypeTemplateController {
 
     @RequestMapping("/search")
     public PageResult search(Integer page, Integer rows, @RequestBody TypeTemplate typeTemplate){
-
+        typeTemplate.setId((long) 1);
         return typeTemplateService.search(page,rows,typeTemplate);
 
     }
@@ -55,4 +55,20 @@ public class TypeTemplateController {
     public TypeTemplate findOne(Long  id){
         return typeTemplateService.findOne(id);
     }
+
+    /**
+     * ZQ审核模板
+     */
+    @RequestMapping("/commit")
+    public Result update(Long[] ids){
+        try {
+            typeTemplateService.commitManager(ids);
+            return new Result(true,"成功");
+        } catch (Exception e) {
+            //e.printStackTrace();
+            return new Result(false,"失败");
+        }
+    }
+
+
 }

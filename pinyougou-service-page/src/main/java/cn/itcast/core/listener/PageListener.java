@@ -3,16 +3,17 @@ package cn.itcast.core.listener;
 import cn.itcast.core.service.StaticPageService;
 import org.apache.activemq.command.ActiveMQTextMessage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.ServletContextAware;
 
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
+import javax.servlet.ServletContext;
 
 /**
  * 消息自定义处理类
  */
-public class PageListener implements MessageListener{
-
+public class PageListener implements MessageListener   {
     @Autowired
     private StaticPageService staticPageService;
     @Override

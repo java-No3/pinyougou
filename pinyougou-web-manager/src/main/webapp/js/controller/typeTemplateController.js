@@ -70,7 +70,19 @@ app.controller('typeTemplateController' ,function($scope,$controller,brandServic
 			}		
 		);				
 	}
-	
+
+    //批量删除
+    $scope.commit=function(){
+        //获取选中的复选框
+        typeTemplateService.commit( $scope.selectIds ).success(
+            function(response){
+                if(response.flag){
+                    $scope.reloadList();//刷新列表
+                    $scope.selectIds = [];
+                }
+            }
+        );
+    }
 	$scope.searchEntity={};//定义搜索对象 
 	
 	//搜索
@@ -118,4 +130,6 @@ app.controller('typeTemplateController' ,function($scope,$controller,brandServic
 	$scope.deleteTableRow = function(index){
 		$scope.entity.customAttributeItems.splice(index,1);
 	}
+
+    $scope.status = ["未审核","待审核","审核通过"];
 });	

@@ -76,9 +76,12 @@ app.controller('goodsController' ,function($scope,$controller,itemCatService   ,
 			}			
 		);
 	}
+
+
     
 	// 显示状态
-	$scope.status = ["未审核","审核通过","审核未通过","关闭"];
+	$scope.status = ["未审核","审核通过","审核未通过","关闭" ];
+
 	
 	$scope.itemCatList = [];
 	// 显示分类:
@@ -102,4 +105,18 @@ app.controller('goodsController' ,function($scope,$controller,itemCatService   ,
 			}
 		});
 	}
+	//商品上架
+    // 审核的方法:
+    $scope.updateMarketable = function(status){
+        goodsService.updateMarketable($scope.selectIds,status).success(function(response){
+            if(response.flag){
+                $scope.reloadList();//刷新列表
+                $scope.selectIds = [];
+            }else{
+                alert(response.message);
+            }
+        });
+    }
+
+
 });	

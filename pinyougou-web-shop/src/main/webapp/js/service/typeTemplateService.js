@@ -25,6 +25,11 @@ app.service('typeTemplateService',function($http){
 	this.dele=function(ids){
 		return $http.get('../typeTemplate/delete.do?ids='+ids);
 	}
+    //审核
+    this.commit=function(ids){
+
+        return $http.get('../typeTemplate/commit.do?ids='+ids);
+    }
 	//搜索
 	this.search=function(page,rows,searchEntity){
 		return $http.post('../typeTemplate/search.do?page='+page+"&rows="+rows, searchEntity);

@@ -23,7 +23,7 @@ public class PayController {
     @RequestMapping("/createNative")
     public Map<String, String> createNative() {
         String name = SecurityContextHolder.getContext().getAuthentication().getName();
-        return payService.createNative(name);
+        return payService.createNative1(name);
     }
 
     //根据支付订单号查询 支付状态
@@ -53,7 +53,6 @@ public class PayController {
                     if (x > 100) {
                         //五分钟
                         //调用微信那边关闭订单Api (同学完成了)
-
                         return new Result(false, "二维码超时");
                     }
                 }
@@ -64,5 +63,4 @@ public class PayController {
         }
 
     }
-
 }

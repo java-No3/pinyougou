@@ -1,5 +1,5 @@
  //控制层 
-app.controller('specificationController' ,function($scope,$controller ,uploadService ,$http,specificationService){
+app.controller('specificationController' ,function($scope,$controller   ,specificationService){	
 	
 	$controller('baseController',{$scope:$scope});//继承
 	
@@ -64,6 +64,19 @@ app.controller('specificationController' ,function($scope,$controller ,uploadSer
 			}		
 		);				
 	}
+    //批量提交规格审核
+    $scope.commit=function(){
+
+        //获取选中的复选框
+        specificationService.commit($scope.selectIds).success(
+            function(response){
+                if(response.flag){
+                    $scope.reloadList();//刷新列表
+                    $scope.selectIds = [];
+                }
+            }
+        );
+    }
 	
 	$scope.searchEntity={};//定义搜索对象 
 	
@@ -73,9 +86,11 @@ app.controller('specificationController' ,function($scope,$controller ,uploadSer
 			function(response){
 				$scope.list=response.rows;	
 				$scope.paginationConf.totalItems=response.total;//更新总记录数
+
 			}			
 		);
 	}
+
 	
 	
 	
@@ -87,39 +102,5 @@ app.controller('specificationController' ,function($scope,$controller ,uploadSer
 		$scope.entity.specificationOptionList.splice(index,1);
 	}
 
-
-    // 文件上传的方法:
-    $scope.uploadFile = function(){
-        uploadService.uploadFile().success(function(response){
-            if(response.flag){
-                $scope.entity = response.message;
-            }else{
-                alert(response.message);
-            }
-        });
-    }
-
-    // 导入数据库 szj
-    $scope.importDb = function(pic){
-        specificationService.importDb(pic).success(function(response){
-            if(response.flag){
-                alert(response.message);
-
-            }else{
-                alert(response.message);
-            }
-        });
-    }
-    // 导入数据库 szj
-    $scope.importDb2 = function(pic){
-        specificationService.importDb2(pic).success(function(response){
-            if(response.flag){
-                alert(response.message);
-
-            }else{
-                alert(response.message);
-            }
-        });
-    }
-    
+    $scope.status = ["未审核","待审核","审核通过"];
 });	

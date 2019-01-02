@@ -6,6 +6,7 @@ import cn.itcast.core.service.UserService;
 import com.alibaba.dubbo.config.annotation.Reference;
 import entity.Result;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -53,6 +54,23 @@ public class UserController {
         } catch (Exception e) {
             e.printStackTrace();
             return new Result(false, "注册失败");
+        }
+
+    }
+
+    //个人信息注册 wph
+    @RequestMapping("/regis")
+    public Result regis(@RequestBody User user) {
+        try {
+            //获取用户名
+            String username = SecurityContextHolder.getContext().getAuthentication().getName();
+            user.setUsername(username);
+            userService.regis(user);
+            return new Result(true,"注册成功");
+        }catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false,"注册失败");
+
         }
 
     }

@@ -355,6 +355,12 @@
       <if test="record.lastLoginTime != null" >
         last_login_time = #{record.lastLoginTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.locus != null" >
+        locus = #{record.locus,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.profession != null" >
+        profession = #{record.profession,jdbcType=TIMESTAMP},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />

@@ -292,4 +292,31 @@
       seller_id = #{sellerId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+
+  <select id="selectOrderCount" parameterType="java.util.Map" resultType="cn.itcast.core.pojo.order.OrderCount">
+      SELECT
+      goods_id goodsId,item_id itemId,title,price,sum(num) totalNum,sum(total_fee) totalPrice
+      FROM
+      tb_order_item
+      WHERE
+      order_id IN (
+          SELECT
+          order_id
+          FROM
+          tb_order
+          WHERE
+            seller_id = #{params.sellerId}
+            AND `status` = '2'
+            AND create_time
+            BETWEEN #{params.startTime} AND #{params.endTime}
+            <if test="params.title != null and params.title != ''">
+              AND title LIKE "%"#{params.title}"%"
+            </if>
+      )
+      GROUP BY item_id
+        <if test="params.totalNum != null and params.totalNum != ''">
+          ORDER BY ${params.sortField} ${params.sort}
+        </if>
+  </select>
 </mapper>

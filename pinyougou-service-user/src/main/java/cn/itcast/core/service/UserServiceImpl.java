@@ -2,6 +2,7 @@ package cn.itcast.core.service;
 
 import cn.itcast.core.dao.user.UserDao;
 import cn.itcast.core.pojo.user.User;
+import cn.itcast.core.pojo.user.UserQuery;
 import com.alibaba.dubbo.config.annotation.Service;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,6 +72,14 @@ public class UserServiceImpl implements UserService {
             //验证码失效
             throw new RuntimeException("验证码失效");
         }
+    }
+
+    //个人信息注册 wph
+    @Override
+    public void regis(User user) {
+        UserQuery userQuery = new UserQuery();
+        userQuery.createCriteria().andUsernameEqualTo(user.getUsername());
+        userDao.updateByExampleSelective(user,userQuery);
     }
 
 }

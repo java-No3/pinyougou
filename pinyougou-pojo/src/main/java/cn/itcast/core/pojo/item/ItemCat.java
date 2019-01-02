@@ -23,6 +23,43 @@ public class ItemCat implements Serializable {
      */
     private Long typeId;
 
+    /**
+     * 状态
+     */
+    private String status;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ItemCat itemCat = (ItemCat) o;
+
+        if (id != null ? !id.equals(itemCat.id) : itemCat.id != null) return false;
+        if (parentId != null ? !parentId.equals(itemCat.parentId) : itemCat.parentId != null) return false;
+        if (name != null ? !name.equals(itemCat.name) : itemCat.name != null) return false;
+        if (typeId != null ? !typeId.equals(itemCat.typeId) : itemCat.typeId != null) return false;
+        return status != null ? status.equals(itemCat.status) : itemCat.status == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (parentId != null ? parentId.hashCode() : 0);
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (typeId != null ? typeId.hashCode() : 0);
+        result = 31 * result + (status != null ? status.hashCode() : 0);
+        return result;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -67,37 +104,10 @@ public class ItemCat implements Serializable {
         sb.append(", parentId=").append(parentId);
         sb.append(", name=").append(name);
         sb.append(", typeId=").append(typeId);
+        sb.append(", status=").append(status);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
     }
 
-    @Override
-    public boolean equals(Object that) {
-        if (this == that) {
-            return true;
-        }
-        if (that == null) {
-            return false;
-        }
-        if (getClass() != that.getClass()) {
-            return false;
-        }
-        ItemCat other = (ItemCat) that;
-        return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getParentId() == null ? other.getParentId() == null : this.getParentId().equals(other.getParentId()))
-            && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
-            && (this.getTypeId() == null ? other.getTypeId() == null : this.getTypeId().equals(other.getTypeId()));
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        result = prime * result + ((getParentId() == null) ? 0 : getParentId().hashCode());
-        result = prime * result + ((getName() == null) ? 0 : getName().hashCode());
-        result = prime * result + ((getTypeId() == null) ? 0 : getTypeId().hashCode());
-        return result;
-    }
 }
