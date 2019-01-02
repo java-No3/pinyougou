@@ -87,4 +87,19 @@ app.controller('sellerController' ,function($scope,$controller   ,sellerService)
 			}
 		});
 	}
+
+
+    // 导出excel  szj
+    $scope.exportExcel=function(){
+
+        sellerService.exportExcel().success(
+            function(response){
+
+
+            }
+        );
+    }
+
+
+
 });	

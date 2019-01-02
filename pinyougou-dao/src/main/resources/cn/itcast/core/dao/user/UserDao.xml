@@ -85,9 +85,9 @@
   </sql>
   <sql id="Base_Column_List" >
     <if test="fields == null" >
-      id, username, password, phone, email, created, updated, source_type, nick_name, name, 
-      status, head_pic, qq, account_balance, is_mobile_check, is_email_check, sex, user_level, 
-      points, experience_value, birthday, last_login_time
+      id, username, password, phone, email, created, updated, source_type, nick_name, name,
+      status, head_pic, qq, account_balance, is_mobile_check, is_email_check, sex, user_level,
+      points, experience_value, birthday, last_login_time, locus, profession
     </if>
     <if test="fields != null" >
       ${fields}
@@ -108,7 +108,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select 
+    select
     id,username,password,phone,email,created,updated,source_type,nick_name,name,status,head_pic,qq,account_balance,is_mobile_check,is_email_check,sex,user_level,points,experience_value,birthday,last_login_time
     from tb_user
     where id = #{id,jdbcType=BIGINT}
@@ -124,21 +124,21 @@
     </if>
   </delete>
   <insert id="insert" parameterType="cn.itcast.core.pojo.user.User" >
-    insert into tb_user (id, username, password, 
-      phone, email, created, 
-      updated, source_type, nick_name, 
-      name, status, head_pic, 
-      qq, account_balance, is_mobile_check, 
-      is_email_check, sex, user_level, 
-      points, experience_value, birthday, 
+    insert into tb_user (id, username, password,
+      phone, email, created,
+      updated, source_type, nick_name,
+      name, status, head_pic,
+      qq, account_balance, is_mobile_check,
+      is_email_check, sex, user_level,
+      points, experience_value, birthday,
       last_login_time)
-    values (#{id,jdbcType=BIGINT}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{phone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP}, 
-      #{updated,jdbcType=TIMESTAMP}, #{sourceType,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR}, 
-      #{name,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{headPic,jdbcType=VARCHAR}, 
-      #{qq,jdbcType=VARCHAR}, #{accountBalance,jdbcType=DECIMAL}, #{isMobileCheck,jdbcType=VARCHAR}, 
-      #{isEmailCheck,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, #{userLevel,jdbcType=INTEGER}, 
-      #{points,jdbcType=INTEGER}, #{experienceValue,jdbcType=INTEGER}, #{birthday,jdbcType=TIMESTAMP}, 
+    values (#{id,jdbcType=BIGINT}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+      #{phone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP},
+      #{updated,jdbcType=TIMESTAMP}, #{sourceType,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR},
+      #{name,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{headPic,jdbcType=VARCHAR},
+      #{qq,jdbcType=VARCHAR}, #{accountBalance,jdbcType=DECIMAL}, #{isMobileCheck,jdbcType=VARCHAR},
+      #{isEmailCheck,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, #{userLevel,jdbcType=INTEGER},
+      #{points,jdbcType=INTEGER}, #{experienceValue,jdbcType=INTEGER}, #{birthday,jdbcType=TIMESTAMP},
       #{lastLoginTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="cn.itcast.core.pojo.user.User" >
@@ -349,7 +349,7 @@
       <if test="record.experienceValue != null" >
         experience_value = #{record.experienceValue,jdbcType=INTEGER},
       </if>
-      <if test="record.birthday != null" >
+      <if test="record.birthday != null and record.birthday != ''">
         birthday = #{record.birthday,jdbcType=TIMESTAMP},
       </if>
       <if test="record.lastLoginTime != null" >

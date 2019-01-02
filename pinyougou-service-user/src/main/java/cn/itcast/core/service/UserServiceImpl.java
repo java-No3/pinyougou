@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.jms.*;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -80,6 +81,15 @@ public class UserServiceImpl implements UserService {
         UserQuery userQuery = new UserQuery();
         userQuery.createCriteria().andUsernameEqualTo(user.getUsername());
         userDao.updateByExampleSelective(user,userQuery);
+    }
+
+    //个人信息回显 wph
+    @Override
+    public List<User> loadInfo(String username) {
+        UserQuery userQuery = new UserQuery();
+        userQuery.createCriteria().andUsernameEqualTo(username);
+        List<User> users = userDao.selectByExample(userQuery);
+        return users;
     }
 
 }

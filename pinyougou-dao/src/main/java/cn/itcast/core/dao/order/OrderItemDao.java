@@ -1,8 +1,11 @@
 package cn.itcast.core.dao.order;
 
+import cn.itcast.core.pojo.order.OrderCount;
 import cn.itcast.core.pojo.order.OrderItem;
 import cn.itcast.core.pojo.order.OrderItemQuery;
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface OrderItemDao {
@@ -27,4 +30,6 @@ public interface OrderItemDao {
     int updateByPrimaryKeySelective(OrderItem record);
 
     int updateByPrimaryKey(OrderItem record);
+
+    List<OrderCount> selectOrderCount(@Param("params") Map<String,String> searchMap);
 }

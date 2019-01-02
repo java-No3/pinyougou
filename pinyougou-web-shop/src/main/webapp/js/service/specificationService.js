@@ -27,10 +27,12 @@ app.service('specificationService',function($http){
 	}
     //批量提交规格审核
     this.commit=function(ids){
+
         return $http.get('../specification/commit.do?ids='+ids);
     }
 	//搜索
 	this.search=function(page,rows,searchEntity){
+
 		return $http.post('../specification/search.do?page='+page+"&rows="+rows, searchEntity);
 	}  
 	

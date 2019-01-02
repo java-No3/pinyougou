@@ -11,7 +11,7 @@ import cn.itcast.core.pojo.item.ItemQuery;
 import com.alibaba.dubbo.config.annotation.Service;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
-import org.apache.solr.common.util.Hash;
+import org.opensaml.ws.wspolicy.All;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.ServletContextAware;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
@@ -30,7 +30,6 @@ public class StaticPageServiceImpl implements StaticPageService,ServletContextAw
 
     @Autowired
     private FreeMarkerConfigurer freeMarkerConfigurer;
-
     @Autowired
     private GoodsDescDao goodsDescDao;
     @Autowired
@@ -87,6 +86,22 @@ public class StaticPageServiceImpl implements StaticPageService,ServletContextAw
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+
+    }
+//删除静态页
+    @Override
+    public void delete(Long id) {
+        //输出路径 (相对路径)
+        String allPath = getPath("/"+id+".html");
+        //读入
+        try {
+            File file = new File(allPath);
+            if (file.isFile()){
+                file.delete();
+            }
+        } catch ( Exception e) {
+            e.printStackTrace();
         }
 
     }

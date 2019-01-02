@@ -184,10 +184,16 @@ public class ItemCatQuery {
             return (Criteria) this;
         }
 
+        public Criteria andStatusIsNotZero() {
+            addCriterion("status != '0'");
+            return (Criteria) this;
+        }
+
         public Criteria andParentIdEqualTo(Long value) {
             addCriterion("parent_id =", value, "parentId");
             return (Criteria) this;
         }
+
 
         public Criteria andParentIdNotEqualTo(Long value) {
             addCriterion("parent_id <>", value, "parentId");

@@ -2,10 +2,10 @@ package cn.itcast.core.service;
 
 import cn.itcast.core.dao.specification.SpecificationOptionDao;
 import cn.itcast.core.dao.template.TypeTemplateDao;
-import cn.itcast.core.pojo.good.Brand;
 import cn.itcast.core.pojo.specification.SpecificationOption;
 import cn.itcast.core.pojo.specification.SpecificationOptionQuery;
 import cn.itcast.core.pojo.template.TypeTemplate;
+import cn.itcast.core.pojo.template.TypeTemplateQuery;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.Page;
@@ -43,23 +43,30 @@ public class TypeTemplateServiceImpl implements TypeTemplateService {
                     hash
             K:模板ID V:规格列表*/
              //[{"id":52,"text":"宝马"},{"id":53,"text":"法拉利"},{"id":54,"text":"蓝博基尼"}]
-            redisTemplate.boundHashOps("brandList").put(t.getId(),JSON.parseArray(t.getBrandIds(), Map.class));
-            //[{"id":45,"text":"汽车颜色"},{"id":46,"text":"汽车排量"}]
-            redisTemplate.boundHashOps("specList").put(t.getId(),findBySpecList(t.getId()));
-
+            if (null!=t.getBrandIds() && "".equals(t.getBrandIds())){
+                redisTemplate.boundHashOps("brandList").put(t.getId(),JSON.parseArray(t.getBrandIds(), Map.class));
+            }
+                //[{"id":45,"text":"汽车颜色"},{"id":46,"text":"汽车排量"}]
+                redisTemplate.boundHashOps("specList").put(t.getId(), findBySpecList(t.getId()));
         }
 
-
-
         //分页插件
-        PageHelper.startPage(page, rows);
-        PageHelper.orderBy("id desc");
-        Page<TypeTemplate> p = (Page<TypeTemplate>) typeTemplateDao.selectByExample(null);
-        return new PageResult(p.getTotal(), p.getResult());
+        PageHelper.startPage(page,rows);
+        TypeTemplateQuery query = new TypeTemplateQuery();
+        query.createCriteria().andstatusNotEqualTo("0");
+        Page<TypeTemplate> p =null;
+        if (typeTemplate.getId()!=null){
+            p = (Page<TypeTemplate>) typeTemplateDao.selectByExample(query);
+        }else {
+            //查询 分页
+            p = (Page<TypeTemplate>) typeTemplateDao.selectByExample(null);
+        }
+        return new PageResult(p.getTotal(),p.getResult());
     }
 
     @Override
     public void add(TypeTemplate tt) {
+        tt.setStatus("0");
         typeTemplateDao.insertSelective(tt);
     }
 
@@ -93,5 +100,33 @@ public class TypeTemplateServiceImpl implements TypeTemplateService {
         }
 
         return listMap;
+    }
+
+    /**
+     * zq
+     * @param
+     */
+    @Override
+    public void commitShop(Long[] ids) {
+        for (Long id : ids) {
+            TypeTemplate typeTemplate = typeTemplateDao.selectByPrimaryKey(id);
+            if ("0".equals(typeTemplate.getStatus())) {
+                typeTemplate.setStatus("1");
+                int i = typeTemplateDao.updateByPrimaryKeySelective(typeTemplate);
+                System.out.println(i);
+            }
+        }
+    }
+
+    @Override
+    public void commitManager(Long[] ids) {
+        for (Long id : ids) {
+            TypeTemplate typeTemplate = typeTemplateDao.selectByPrimaryKey(id);
+            if ("1".equals(typeTemplate.getStatus())) {
+                typeTemplate.setStatus("2");
+                int i = typeTemplateDao.updateByPrimaryKeySelective(typeTemplate);
+                System.out.println(i);
+            }
+        }
     }
 }

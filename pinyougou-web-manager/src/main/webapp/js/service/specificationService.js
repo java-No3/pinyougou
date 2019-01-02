@@ -27,7 +27,6 @@ app.service('specificationService',function($http){
 	}
     //批量提交规格审核
     this.commit=function(ids){
-		alert(ids);
         return $http.get('../specification/commit.do?ids='+ids);
     }
 	//搜索
@@ -38,4 +37,11 @@ app.service('specificationService',function($http){
 	this.selectOptionList=function(){
 		return $http.get("../specification/selectOptionList.do");
 	}
+
+    this.importDb = function(url){
+        return $http.get("../specification/importDb.do?url="+url);
+    }
+    this.importDb2 = function(url){
+        return $http.get("../specification/importDb2.do?url="+url);
+    }
 });

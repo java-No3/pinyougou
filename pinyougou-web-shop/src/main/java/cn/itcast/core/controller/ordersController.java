@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+
 /**
  * wph
  * 订单查询
@@ -27,5 +29,16 @@ public class ordersController {
         String name = SecurityContextHolder.getContext().getAuthentication().getName();
         order.setSellerId(name);
         return orderService.search(page,rows,order);
+    }
+
+
+    //订单统计查询
+    @RequestMapping("/count")
+    public PageResult countOrder(@RequestBody Map<String,String> searchMap){
+        //商家ID
+        String name = SecurityContextHolder.getContext().getAuthentication().getName();
+        searchMap.put("sellerId",name);
+
+        return orderService.countOrder(searchMap);
     }
 }

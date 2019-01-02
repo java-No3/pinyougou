@@ -51,7 +51,6 @@ public class GoodsController {
     @RequestMapping("/delete")
     public Result delete(Long[] ids){
         try {
-
             goodsService.delete(ids);
             return new Result(true,"成功");
         } catch (Exception e) {
@@ -65,6 +64,8 @@ public class GoodsController {
 
         return goodsService.search(page,rows,goods);
     }
+
+
     //通过ID 查询一个包装对象
     @RequestMapping("/findOne")
     public GoodsVo findOne(Long id){
@@ -76,6 +77,18 @@ public class GoodsController {
     public Result updateStatus(Long[] ids,String status){
         try {
             goodsService.updateStatus(ids,status);
+            return new Result(true,"审核成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false,"审核失败");
+        }
+    }
+
+    //开始上架
+    @RequestMapping("/updateMarketable")
+    public Result updateMarketable(Long[] ids,String status){
+        try {
+            goodsService.updateMarketable(ids,status);
             return new Result(true,"审核成功");
         } catch (Exception e) {
             e.printStackTrace();

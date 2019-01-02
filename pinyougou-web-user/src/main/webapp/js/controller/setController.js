@@ -5,11 +5,14 @@ app.controller('setController',function($scope,setService,uploadService){
     $scope.pro_entity = [];
     $scope.cit_entity = [];
     $scope.dis_entity = [];
+    $scope.year_entity = [];
+    $scope.mon_entity = [];
+    $scope.day_entity = [];
 
 
     //个人信息注册 wph
     $scope.regis=function(){
-        $scope.reg_entity.locus = $scope.pro_entity + $scope.cit_entity + $scope.dis_entity;
+        $scope.reg_entity.locus = $scope.pro_entity+ $scope.cit_entity+ $scope.dis_entity;
         $scope.reg_entity.birthday = $scope.year_entity + "-" + $scope.mon_entity + "-" + $scope.day_entity;
         setService.regis($scope.reg_entity).success(
             function(response){
@@ -31,4 +34,12 @@ app.controller('setController',function($scope,setService,uploadService){
         });
     }
 
+    //回显个人信息 wph
+    $scope.loadInfo=function(){
+        setService.loadInfo().success(function(response){
+            $scope.reg_entity = response;
+
+
+        });
+    }
 });

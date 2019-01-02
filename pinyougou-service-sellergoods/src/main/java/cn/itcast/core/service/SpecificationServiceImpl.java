@@ -36,9 +36,9 @@ public class SpecificationServiceImpl implements  SpecificationService {
         PageHelper.startPage(page,rows);
         //条件查询
         SpecificationQuery query = new SpecificationQuery();
-        query.createCriteria().andstatusEqualTo("0");
+        query.createCriteria().andstatusNotEqualTo("0");
         Page<Specification> p =null;
-        if (specification.getId()!=(long)1){
+        if (specification.getId()!=null){
              p = (Page<Specification>) specificationDao.selectByExample(query);
         }else {
             //查询 分页
@@ -118,14 +118,9 @@ public class SpecificationServiceImpl implements  SpecificationService {
      * @param ids
      */
     @Override
-    public void commit(Long[] ids) {
+    public void commitManager(Long[] ids) {
         for (Long id : ids) {
             Specification specification = specificationDao.selectByPrimaryKey(id);
-            if ("0".equals(specification.getStatus())){
-                specification.setStatus("1");
-                specificationDao.updateByPrimaryKeySelective(specification);
-                return;
-            }
             if ("1".equals(specification.getStatus())){
                 specification.setStatus("2");
                 specificationDao.updateByPrimaryKeySelective(specification);
@@ -134,5 +129,15 @@ public class SpecificationServiceImpl implements  SpecificationService {
 
     }
 
+    @Override
+    public void commitShop(Long[] ids) {
+        for (Long id : ids) {
+            Specification specification = specificationDao.selectByPrimaryKey(id);
+            if ("0".equals(specification.getStatus())) {
+                specification.setStatus("1");
+                specificationDao.updateByPrimaryKeySelective(specification);
+            }
+        }
+    }
 
 }

@@ -62,4 +62,20 @@ public class TypeTemplateController {
     public List<Map> findBySpecList(Long  id){
         return typeTemplateService.findBySpecList(id);
     }
+
+    /**
+     * 模板提交
+     * @param
+     * @return
+     */
+    @RequestMapping("/commit")
+    public Result commit(Long[] ids){
+        try {
+            typeTemplateService.commitShop(ids);
+            return new Result(true,"成功");
+        } catch (Exception e) {
+            //e.printStackTrace();
+            return new Result(false,"失败");
+        }
+    }
 }
