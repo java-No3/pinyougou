@@ -258,6 +258,11 @@ public class TypeTemplateQuery {
             addCriterion("spec_ids =", value, "specIds");
             return (Criteria) this;
         }
+        public Criteria andstatusNotEqualTo(String value) {
+            addCriterion("status <>", value, "status");
+            return (Criteria) this;
+        }
+
 
         public Criteria andSpecIdsNotEqualTo(String value) {
             addCriterion("spec_ids <>", value, "specIds");

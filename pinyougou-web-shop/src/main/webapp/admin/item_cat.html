@@ -88,7 +88,7 @@
 									      <td>
 									      	{{entity.typeId}}  
 									      </td>
-										  <td>{{entity.status=="1"?"待审核":"审核通过"}}</td>
+										  <td>{{entity.status=="0"?"未审核":(entity.status=="1"?"待审核":"审核通过")}}</td>
 
 		                                  <td class="text-center">
 			                                  <span ng-if="grade != 3">                          

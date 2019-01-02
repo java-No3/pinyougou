@@ -134,7 +134,4 @@ public class OrderServiceImpl implements OrderService {
         redisTemplate.boundHashOps("payLog").put(order.getUserId(),payLog);
 
     }
-
-
-
 }

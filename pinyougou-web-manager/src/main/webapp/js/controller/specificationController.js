@@ -101,5 +101,6 @@ app.controller('specificationController' ,function($scope,$controller   ,specifi
 	$scope.deleteTableRow = function(index){
 		$scope.entity.specificationOptionList.splice(index,1);
 	}
+
     $scope.status = ["未审核","待审核","审核通过"];
 });	

@@ -29,6 +29,22 @@ public class ItemCatServiceImpl implements  ItemCatService {
         for (ItemCat itemCat : itemCats) {
             redisTemplate.boundHashOps("itemCat").put(itemCat.getName(),itemCat.getTypeId());
         }
+
+        ItemCatQuery query = new ItemCatQuery();
+        query.createCriteria().andParentIdEqualTo(parentId).andStatusIsNotZero();
+        return itemCatDao.selectByExample(query);
+    }
+
+    @Override
+    public List<ItemCat> findByParentIdShop(Long parentId) {
+
+        //1:查询Mysql数据中分类结果集 (所有)
+        List<ItemCat> itemCats = findAll();
+        //2:将所有商品分类结果集保存到缓存中(Hash类型)
+        for (ItemCat itemCat : itemCats) {
+            redisTemplate.boundHashOps("itemCat").put(itemCat.getName(),itemCat.getTypeId());
+        }
+
         ItemCatQuery query = new ItemCatQuery();
         query.createCriteria().andParentIdEqualTo(parentId);
         return itemCatDao.selectByExample(query);
@@ -41,6 +57,32 @@ public class ItemCatServiceImpl implements  ItemCatService {
 
     @Override
     public List<ItemCat> findAll() {
-        return itemCatDao.selectByExample(null);
+
+        List<ItemCat> itemCats = itemCatDao.selectByExample(null);
+        return itemCats;
+    }
+
+    @Override
+    public void commitManager(Long[] ids) {
+        for (Long id : ids) {
+            ItemCat itemCat = itemCatDao.selectByPrimaryKey(id);
+            if ("1".equals(itemCat.getStatus())){
+                itemCat.setStatus("2");
+                itemCatDao.updateByPrimaryKeySelective(itemCat);
+            }
+        }
+
+
+    }
+
+    @Override
+    public void commitShop(Long[] ids) {
+        for (Long id : ids) {
+            ItemCat itemCat = itemCatDao.selectByPrimaryKey(id);
+            if ("0".equals(itemCat.getStatus())){
+                itemCat.setStatus("1");
+                itemCatDao.updateByPrimaryKeySelective(itemCat);
+            }
+        }
     }
 }

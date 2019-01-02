@@ -189,7 +189,7 @@ public class SpecificationQuery {
             return (Criteria) this;
         }
 
-        public Criteria andstatusEqualTo(String value) {
+        public Criteria andstatusNotEqualTo(String value) {
             addCriterion("status !=", value, "status");
             return (Criteria) this;
         }

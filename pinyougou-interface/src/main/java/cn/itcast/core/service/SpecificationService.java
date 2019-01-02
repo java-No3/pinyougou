@@ -20,7 +20,8 @@ public interface SpecificationService {
     List<Map> selectOptionList();
 
 
-    void commit(Long[] ids);
+    void commitManager(Long[] ids);
 
 
+    void commitShop(Long[] ids);
 }
